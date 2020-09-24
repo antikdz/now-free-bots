@@ -1,0 +1,35 @@
+// ==UserScript==
+// @name         free bots 
+// @version      1.1.0
+// @description  free bots
+// @author       free bots
+// @grant        GM_xmlhttpRequest
+// @icon         https://i.imgur.com/OIRaWUJ.jpg
+// @run-at       document-start
+// @match        *://agar.io/*
+// @connect      pastebin.com
+// @connect      cdn.ogario.ovh
+// ==/UserScript==
+
+if(location.host === 'agar.io' && location.pathname === '/'){
+    location.href = `https://agar.io/ᵃᶰᵗᶤᵏ™${location.hash}`
+    return
+}
+
+function modifyHTML(html){
+    return html
+        .replace('<head>', '<head><script src="https://bundle.run/buffer@5.2.1"></script><script src="https://ex-script.com/fstyle/ogario/vendCache.js"></script>') //https://pastebin.com/raw/z9hBsFYi
+        .replace('https://cdn.ogario.ovh/v4/beta/ogario.v4.js', 'https://ex-script.com/fstyle/ogario/OGARio.core.js')
+}
+
+if(!navigator.userAgent.includes('Chrome/') || Number(navigator.userAgent.match(/Chrome\/(\d+)/)[1]) < 76) window.stop()
+
+GM_xmlhttpRequest({
+    method: 'GET',
+    url: 'https://cdn.ogario.ovh/v4/beta',
+    onload(res2){
+        document.open()
+        document.write(modifyHTML(res2.responseText))
+        document.close()
+    }
+})
